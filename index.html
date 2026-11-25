@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<meta name="color-scheme" content="light dark"/>
+<link rel="icon" href="data:,"/>
+<title>小黑球装机 — 装机比价 | 博主配 / 自己选</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f4f2; --surface:#ffffff; --surface2:#ececea; --ink:#0a0a0a; --muted:#62625e; --line:#dcdcd8;
+  --black:#0a0a0a; --white:#ffffff; --hero-bg:#0a0a0a; --hero-ink:#ffffff; --hero-muted:#b8b8b3; --hero-line:#2e2e2c;
+  --low-bg:#0a0a0a; --low-ink:#ffffff; --warn-bg:#0a0a0a; --warn-ink:#ffffff;
+  color-scheme:light;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#111110; --surface:#1b1b1a; --surface2:#262625; --ink:#f5f5f2; --muted:#a6a6a0; --line:#333331;
+    --black:#f5f5f2; --hero-bg:#f5f5f2; --hero-ink:#0a0a0a; --hero-muted:#4c4c48; --hero-line:#d8d8d3;
+    --low-bg:#f5f5f2; --low-ink:#0a0a0a; --warn-bg:#f5f5f2; --warn-ink:#0a0a0a;
+    color-scheme:dark;
+  }
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans SC",system-ui,-apple-system,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit} button{font:inherit;cursor:pointer;min-height:44px;color:inherit;background:none;border:0}
+.mono{font-family:"JetBrains Mono",monospace}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+
+/* ── 顶栏：黑底 ── */
+.topbar{position:sticky;top:0;z-index:50;background:#0a0a0a;color:#fff;border-bottom:1px solid #0a0a0a}
+@media(prefers-color-scheme:dark){.topbar{background:#f5f5f2;color:#0a0a0a;border-color:#f5f5f2}}
+.topbar-in{display:flex;align-items:center;justify-content:space-between;padding:12px 0;gap:12px}
+.logo{font-weight:900;font-size:18px;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.logo-mark{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;background:#fff;color:#0a0a0a;font-weight:800;font-size:20px;border-radius:50%;flex-shrink:0;line-height:1}
+@media(prefers-color-scheme:dark){.logo-mark{background:#0a0a0a;color:#fff}}
+.logo span{opacity:.65;font-weight:400;font-size:12.5px;margin-left:2px}
+.meta{font-size:12px;opacity:.7;white-space:nowrap}
+@media(max-width:520px){.logo span{display:none}}
+
+/* ── 主界面 / Hero：黑白主视觉 + 装饰 ── */
+.hero{background:var(--hero-bg);color:var(--hero-ink);position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--hero-line) 1px,transparent 1px),linear-gradient(90deg,var(--hero-line) 1px,transparent 1px);background-size:56px 56px;opacity:.07;pointer-events:none}
+.hero-in{padding:64px 0 0;position:relative;z-index:1}
+@media(max-width:560px){.hero-in{padding:44px 0 0}}
+/* 小黑球装机专属大空间：通栏居中，不再左右分栏、不挂白色名片卡 */
+.hero-stage{max-width:900px;margin:0 auto;text-align:center;padding:12px 0 6px}
+.hero-avatar{width:124px;height:124px;margin:0 auto 26px;border-radius:50%;background:radial-gradient(circle at 32% 28%,#6a6a66 0 12%,#1c1c1a 46%,#000 78%);color:#fff;display:flex;align-items:center;justify-content:center;font-size:48px;font-weight:900;border:3px solid var(--hero-ink);box-shadow:8px 8px 0 var(--hero-line);position:relative}
+@media(prefers-color-scheme:dark){.hero-avatar{background:radial-gradient(circle at 32% 28%,#fff 0 10%,#c9c9c4 30%,#3a3a38 72%);color:#0a0a0a}}
+.hero-avatar small{position:absolute;bottom:-11px;left:50%;transform:translateX(-50%);background:var(--hero-ink);color:var(--hero-bg);font-size:11px;font-weight:900;padding:3px 11px;letter-spacing:.08em;white-space:nowrap}
+.hero-points{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:30px;text-align:left}
+@media(max-width:700px){.hero-points{grid-template-columns:1fr}}
+.hero-point{border:1.5px solid var(--hero-line);padding:16px}
+.hero-point b{display:block;font-size:15px;font-weight:900}
+.hero-point b i{font-style:normal;font-family:"JetBrains Mono",monospace;font-size:12px;background:var(--hero-ink);color:var(--hero-bg);padding:2px 6px;margin-right:8px;vertical-align:2px}
+.hero-point p{margin:6px 0 0;font-size:12.5px;color:var(--hero-muted);line-height:1.6}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--hero-ink);padding:5px 11px;font-size:12px;font-weight:900;letter-spacing:.06em;background:var(--hero-bg)}
+.hero-tag i{width:9px;height:9px;border-radius:50%;background:var(--hero-ink);display:inline-block;box-shadow:inset -2px -2px 0 rgba(128,128,128,.45);flex-shrink:0}
+.hero h1{margin:20px 0 0;font-size:76px;line-height:.98;letter-spacing:-.04em;font-weight:900}
+.hero h1 .outline{display:block;color:transparent;-webkit-text-stroke:1.5px var(--hero-ink);font-size:34px;letter-spacing:.1em;margin-bottom:10px}
+.hero h1 .thin{display:block;font-size:26px;font-weight:700;letter-spacing:-.02em;margin-top:14px;opacity:.92;line-height:1.3}
+@media(max-width:560px){.hero h1{font-size:52px}.hero h1 .outline{font-size:24px}.hero h1 .thin{font-size:21px}}
+.hero-desc{margin:16px auto 0;color:var(--hero-muted);font-size:15.5px;line-height:1.75;max-width:640px}
+.hero-sign{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;justify-content:center}
+.hero-sign span{font-size:12px;font-weight:700;border:1px solid var(--hero-line);padding:6px 9px}
+.hero-sign span b{font-family:"JetBrains Mono",monospace}
+.hero-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px;justify-content:center}
+.hero-copy{margin-top:12px;background:transparent;color:var(--hero-ink);border:1.5px dashed var(--hero-line);font-weight:900;padding:0 16px;font-size:13.5px}
+.hero-copy small{font-weight:400;opacity:.7;margin-left:6px}
+.btn-hero{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 22px;font-weight:900;font-size:15px;border:2px solid var(--hero-ink);text-decoration:none}
+.btn-hero-solid{background:var(--hero-ink);color:var(--hero-bg)}
+.btn-hero-ghost{background:transparent;color:var(--hero-ink)}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--hero-line);margin-top:28px;background:var(--hero-bg)}
+@media(max-width:560px){.hero-stats{grid-template-columns:1fr 1fr}}
+.hstat{padding:14px 14px 16px 0;border-right:1px solid var(--hero-line)}
+.hstat:last-child{border-right:0}
+.hstat b{display:block;font-family:"JetBrains Mono",monospace;font-size:24px;font-weight:800;line-height:1.1}
+.hstat span{display:block;font-size:12px;color:var(--hero-muted);margin-top:3px}
+.hero-note{padding:12px 0 16px;font-size:12px;color:var(--hero-muted);line-height:1.6}
+/* 跑马灯装饰条 */
+.ticker{border-top:1px solid var(--hero-line);border-bottom:1px solid var(--hero-line);overflow:hidden;white-space:nowrap;padding:9px 0;background:var(--hero-bg)}
+.ticker-track{display:inline-block;animation:tick 26s linear infinite;font-weight:900;font-size:13px;letter-spacing:.12em}
+.ticker-track span{margin:0 14px}
+.ticker-track span::after{content:" ●";opacity:.55}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.ticker-track{animation:none}}
+/* 斜纹分隔装饰 */
+.deco-strip{height:12px;margin:18px 0 0;background:repeating-linear-gradient(-45deg,var(--ink) 0 12px,transparent 12px 24px);opacity:.95}
+.deco-dots{display:flex;gap:7px;align-items:center;margin-top:16px;justify-content:center}
+.deco-dots i{width:8px;height:8px;border-radius:50%;background:var(--ink);display:block}
+.deco-dots i:nth-child(2){opacity:.65}.deco-dots i:nth-child(3){opacity:.35}.deco-dots em{font-style:normal;font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.14em;color:var(--muted);margin-left:4px}
+
+/* ── 三步条 ── */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:18px 0 2px}
+@media(max-width:700px){.steps{grid-template-columns:1fr}}
+.step{background:var(--surface);border:1.5px solid var(--ink);padding:14px 16px;display:flex;gap:14px;align-items:flex-start}
+.step-no{font-family:"JetBrains Mono",monospace;font-weight:800;font-size:22px;line-height:1;background:var(--ink);color:var(--bg);width:40px;height:40px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step b{display:block;font-size:15px}
+.step p{margin:2px 0 0;font-size:12.5px;color:var(--muted);line-height:1.5}
+
+/* ── 二级菜单：可点击跳转的二级按钮 ── */
+.modebar{position:sticky;top:55px;z-index:40;background:var(--bg);padding:16px 0 12px;scroll-margin-top:55px}
+.mode-label{font-size:12px;font-weight:900;letter-spacing:.08em;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;max-width:720px}
+.mode-label em{font-style:normal;font-weight:400;letter-spacing:0;color:var(--muted)}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:720px}
+@media(max-width:520px){.tabs{grid-template-columns:1fr 1fr;gap:8px}.tab{padding:12px 10px}.tab small{display:none}.tab .go{font-size:16px}}
+.tab{padding:14px 16px;text-align:left;line-height:1.3;display:flex;gap:12px;align-items:center;min-height:64px;border:2px solid var(--ink);background:var(--surface);color:var(--ink);text-decoration:none;box-shadow:4px 4px 0 var(--ink);transition:transform .12s,box-shadow .12s}
+.tab:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+.tab .n{font-family:"JetBrains Mono",monospace;font-weight:800;font-size:20px;opacity:.35;flex-shrink:0}
+.tab b{display:block;font-size:17px;font-weight:900}
+.tab small{display:block;font-size:12px;color:var(--muted);margin-top:1px}
+.tab .go{margin-left:auto;font-weight:900;font-size:18px;line-height:1;flex-shrink:0;opacity:.55}
+.tab.on{background:var(--ink);color:var(--bg);box-shadow:4px 4px 0 rgba(0,0,0,.22)}
+.tab.on small{color:var(--bg);opacity:.75}
+.tab.on .n,.tab.on .go{opacity:.9;color:var(--bg)}
+.panel{display:none;padding:4px 0 10px;scroll-margin-top:148px}
+.panel.on{display:block}
+.panel-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin:6px 0 12px}
+.panel-head h2{margin:0;font-size:20px;font-weight:900;letter-spacing:-.02em}
+.panel-head p{margin:0;font-size:12.5px;color:var(--muted)}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 16px;min-height:44px;font-weight:700;font-size:14px;text-decoration:none;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink)}
+.btn-primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn-sm{min-height:40px;padding:0 13px;font-size:13px}
+
+/* ── 博主配 ── */
+.pkg-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:640px){.pkg-grid{grid-template-columns:1fr}}
+.pkg{text-align:left;background:var(--surface);border:1.5px solid var(--line);padding:0;width:100%;overflow:hidden}
+.pkg:hover{border-color:var(--ink)}
+.pkg.on{border:2px solid var(--ink);box-shadow:6px 6px 0 var(--ink)}
+.pkg-bar{display:flex;justify-content:space-between;align-items:center;padding:9px 16px;border-bottom:1px solid var(--line);font-size:12px;font-weight:700}
+.pkg.on .pkg-bar{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.pkg-check{display:none;font-weight:900}
+.pkg.on .pkg-check{display:block}
+.pkg-body{padding:14px 16px 16px}
+.pkg h3{margin:0 0 5px;font-size:20px;font-weight:900;letter-spacing:-.02em}
+.pkg p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}
+.pkg-fps{margin-top:10px;font-size:12px;font-weight:700;border:1px solid var(--line);display:inline-block;padding:4px 8px}
+.pkg-price{margin-top:14px;padding-top:12px;border-top:2px solid var(--ink);display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+.pkg-price b{font-size:27px;font-family:"JetBrains Mono",monospace;font-weight:800}
+.pkg-price span{font-size:12px;color:var(--muted)}
+.pkg-price .save-chip{margin-left:auto;font-size:12px;font-weight:900;background:var(--ink);color:var(--bg);padding:4px 8px}
+
+.detail{margin-top:16px;background:var(--surface);border:2px solid var(--ink)}
+.detail-head{background:var(--ink);color:var(--bg);padding:14px 18px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start}
+.detail-head h3{margin:0;font-size:18px;font-weight:900}
+.detail-head p{margin:3px 0 0;font-size:12.5px;opacity:.75}
+.detail-body{padding:6px 18px 18px}
+.part-list{margin:6px 0 0}
+.part-row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.part-row .cat{color:var(--muted);width:80px;flex-shrink:0;font-size:12.5px;padding-top:2px;font-weight:700}
+.part-row .nm{flex:1;font-weight:700}
+.part-row .nm span{color:var(--muted);font-size:12px;font-weight:400}
+.part-row .pr{font-family:"JetBrains Mono",monospace;font-weight:800;white-space:nowrap;text-align:right}
+.part-row .pr small{display:block;font-family:"Noto Sans SC",sans-serif;font-weight:900;font-size:11px;margin-top:2px}
+.part-row .pr small em{font-style:normal;background:var(--low-bg);color:var(--low-ink);padding:1px 6px}
+.totals{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:16px;border:1.5px solid var(--ink)}
+@media(max-width:640px){.totals{grid-template-columns:1fr 1fr}}
+.total-cell{padding:11px 13px;border-right:1px solid var(--line)}
+.total-cell:last-child{border-right:0}
+@media(max-width:640px){.total-cell:nth-child(2){border-right:0}.total-cell:nth-child(1),.total-cell:nth-child(2){border-bottom:1px solid var(--line)}}
+.total-cell label{display:block;font-size:12px;color:var(--muted);font-weight:700}
+.total-cell b{font-family:"JetBrains Mono",monospace;font-size:18px;font-weight:800}
+.total-cell.best{background:var(--ink);color:var(--bg)}
+.total-cell.best label{color:var(--bg);opacity:.7}
+.detail-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.detail-save{font-size:12.5px;color:var(--muted);margin:10px 0 0}
+
+/* ── 自己选 ── */
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.toolbar .spacer{flex:1}
+.tip{font-size:12.5px;color:var(--muted);margin:0 0 12px;line-height:1.6}
+.layout{display:grid;grid-template-columns:308px 1fr;gap:14px;align-items:start}
+@media(max-width:880px){.layout{grid-template-columns:1fr}}
+.summary{position:sticky;top:150px;background:var(--ink);color:var(--bg);padding:18px;border:2px solid var(--ink)}
+@media(max-width:880px){.summary{top:150px;z-index:10}}
+.summary h3{margin:0;font-size:13px;font-weight:900;letter-spacing:.08em;opacity:.85}
+.summary .mix{font-family:"JetBrains Mono",monospace;font-size:34px;font-weight:800;line-height:1.1;margin:8px 0 2px}
+.summary .mix small{font-size:12px;font-family:"Noto Sans SC",sans-serif;font-weight:400;opacity:.7}
+.trow{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid;color:inherit;border-color:rgba(128,128,124,.4);font-size:13.5px}
+.trow span{opacity:.75}.trow b{font-family:"JetBrains Mono",monospace}
+.trow b.best{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px}
+.save{font-size:13px;font-weight:700;background:var(--bg);color:var(--ink);padding:10px 12px;margin-top:12px}
+.warn{font-size:13px;background:var(--bg);color:var(--ink);padding:10px 12px;margin-top:8px;line-height:1.55;border-left:6px solid var(--bg);outline:1.5px solid var(--bg)}
+.ok{font-size:13px;margin-top:10px;font-weight:700}
+.summary .btn{width:100%;margin-top:14px;background:var(--bg);color:var(--ink);border-color:var(--bg)}
+.cat-block{background:var(--surface);border:1.5px solid var(--line);margin-bottom:12px}
+.cat-head{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:12px 16px;border-bottom:1.5px solid var(--ink);flex-wrap:wrap}
+.cat-head h3{margin:0;font-size:16px;font-weight:900;display:flex;align-items:center;gap:9px}
+.cat-idx{font-family:"JetBrains Mono",monospace;font-size:12px;font-weight:800;background:var(--ink);color:var(--bg);padding:3px 7px}
+.cat-head h3 span{color:var(--muted);font-weight:400;font-size:12px}
+.cat-head .cur{font-size:12.5px;font-weight:900;text-align:right}
+.cat-hint{font-size:12.5px;color:var(--muted);margin:0;padding:10px 16px 0}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 16px 16px}
+@media(max-width:600px){.opts{grid-template-columns:1fr}}
+.opt{text-align:left;background:var(--surface);border:1.5px solid var(--line);padding:12px;width:100%}
+.opt:hover{border-color:var(--ink)}
+.opt.sel{border:2px solid var(--ink);background:var(--surface2);box-shadow:4px 4px 0 var(--ink)}
+.opt-tag{display:inline-block;font-size:11px;font-weight:900;border:1.5px solid var(--ink);padding:2px 7px;margin-bottom:7px}
+.opt.sel .opt-tag{background:var(--ink);color:var(--bg)}
+.opt-name{font-weight:900;font-size:14px;line-height:1.35}
+.opt-name .tick{display:none;font-size:12px;margin-left:6px}
+.opt.sel .tick{display:inline}
+.opt-spec{font-size:12px;color:var(--muted);margin-top:2px}
+.opt-prices{display:flex;gap:12px;flex-wrap:wrap;margin-top:9px;padding-top:9px;border-top:1px solid var(--line);font-size:12.5px;font-family:"JetBrains Mono",monospace;font-weight:700}
+.opt-prices label{font-family:"Noto Sans SC",sans-serif;font-weight:400;color:var(--muted);font-size:11px}
+.opt-prices span.low{font-weight:800}
+.opt-prices span.low .lp{background:var(--low-bg);color:var(--low-ink);font-family:"Noto Sans SC",sans-serif;font-size:10px;font-weight:900;padding:1px 5px;margin-left:4px;vertical-align:2px}
+
+/* ── 接口接入 ── */
+.api-box{margin-top:22px;background:var(--surface);border:2px solid var(--ink);padding:18px}
+.api-box h2{margin:0;font-size:19px;font-weight:900;letter-spacing:-.02em}
+.api-box .sub{margin:6px 0 0;font-size:13px;color:var(--muted);line-height:1.7}
+.api-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+@media(max-width:700px){.api-grid{grid-template-columns:1fr}}
+.api-card{border:1.5px solid var(--line);padding:14px}
+.api-card b{font-size:15px}
+.api-badge{display:inline-block;font-size:11px;font-weight:900;border:1.5px solid var(--ink);padding:2px 7px;margin-left:6px;vertical-align:2px}
+.api-badge.pending{background:var(--surface);color:var(--ink)}
+.api-card p{margin:7px 0 0;font-size:12.5px;color:var(--muted);line-height:1.6}
+.api-form{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.api-form input{flex:1;min-width:220px;min-height:44px;padding:0 12px;border:1.5px solid var(--ink);background:var(--surface);color:var(--ink);font:inherit;font-size:14px}
+.api-status{font-size:12.5px;color:var(--muted);margin-top:10px;line-height:1.6}
+.api-status b{color:var(--ink)}
+.api-list{margin:10px 0 0;padding-left:18px;font-size:13px;line-height:1.8;color:var(--muted)}
+.api-list b{color:var(--ink)}
+
+/* ── 底部 ── */
+.faq{padding:22px 0 6px}
+.faq h2{font-size:19px;font-weight:900;margin:0 0 6px;letter-spacing:-.02em}
+.faq details{border-bottom:1.5px solid var(--line);padding:11px 0}
+.faq summary{font-weight:900;font-size:14.5px;cursor:pointer;min-height:32px;display:flex;align-items:center}
+.faq p{color:var(--muted);font-size:13.5px;margin:4px 0 6px;line-height:1.7}
+footer{background:#0a0a0a;color:#fff;margin-top:26px}
+@media(prefers-color-scheme:dark){footer{background:#f5f5f2;color:#0a0a0a}}
+footer .wrap{padding-top:20px;padding-bottom:30px;font-size:12px;opacity:1}
+footer b{font-size:14px}
+footer p{opacity:.65;margin:6px 0 0;line-height:1.7}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:var(--ink);color:var(--bg);border:1.5px solid var(--bg);padding:11px 18px;font-weight:900;font-size:14px;opacity:0;pointer-events:none;transition:.2s;z-index:60;white-space:nowrap;box-shadow:0 4px 18px rgba(0,0,0,.3)}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="wrap topbar-in">
+<div class="logo"><span class="logo-mark">●</span>小黑球装机<span>装机比价 · 闲鱼 / 拼多多 / 京东</span></div>
+<div class="meta">抖音：小黑球装机 · 接口待接入 · 当前快照价 2026-11-25</div>
+</div></header>
+
+<!-- 主界面：先展示博主本人，再进入配机 -->
+<section class="hero"><div class="wrap hero-in">
+<div class="hero-stage">
+<div class="hero-avatar">球<small>小黑球装机</small></div>
+<span class="hero-tag"><i></i>抖音 · 小黑球装机 · PC DIY 博主</span>
+<h1><span class="outline">XIAOHEIQIU</span>小黑球装机<span class="thin">装机先比价，少花冤枉钱。</span></h1>
+<p class="hero-desc">我是小黑球，平时在抖音聊装机、聊价格、聊怎么捡漏。这个站是我给粉丝留的配机工具：不会配就照着我的 4 套买，想换件就自己逐件选，三家平台同屏比总价。</p>
+<div class="hero-sign"><span>✦ 博主本人配单</span><span>✦ 不恰单品烂饭</span><span>✦ 先看 <b>总价</b> 再下单</span></div>
+<div class="hero-cta">
+<a href="#panel-blogger" class="btn-hero btn-hero-solid" onclick="return jumpToMode(event,'blogger')">博主配 · 看现成方案 ↓</a>
+<a href="#panel-custom" class="btn-hero btn-hero-ghost" onclick="return jumpToMode(event,'custom')">自己选 · 逐件挑配件 ↓</a>
+</div>
+<button class="hero-copy" onclick="copyDouyin()">抖音搜「小黑球装机」<small>点这里复制名字 →</small></button>
+<div class="hero-points">
+<div class="hero-point"><b><i>01</i>博主亲自配</b><p>4 套现成方案从 ¥2,800 到 ¥11,500，不会配直接照着抄，兼容都验过了。</p></div>
+<div class="hero-point"><b><i>02</i>只看整套划不划算</b><p>不推单一一件货，闲鱼、拼多多、京东三家同屏比总价，哪家便宜买哪家。</p></div>
+<div class="hero-point"><b><i>03</i>捡漏也要避坑</b><p>哪件能淘二手、哪件必须买自营保修，视频里聊过的，在这里都能自己动手验。</p></div>
+</div>
+<div class="deco-dots" aria-hidden="true"><i></i><i></i><i></i><em>SCROLL · 下面选配法</em></div>
+</div>
+<div class="hero-stats">
+<div class="hstat"><b>小黑球</b><span>抖音名 · 搜「小黑球装机」找我</span></div>
+<div class="hstat"><b>4 套</b><span>博主现成方案 · ¥2,800–11,500</span></div>
+<div class="hstat"><b>43 个</b><span>配件选项 · 7 大类可自己换</span></div>
+<div class="hstat"><b>3 家</b><span>闲鱼 / 拼多多 / 京东同屏比价</span></div>
+</div>
+</div>
+<div class="ticker" aria-hidden="true"><div class="ticker-track"><span>小黑球装机</span><span>装机比价</span><span>博主配</span><span>自己选</span><span>闲鱼捡漏</span><span>拼多多券后</span><span>京东自营</span><span>少花冤枉钱</span><span>小黑球装机</span><span>装机比价</span><span>博主配</span><span>自己选</span><span>闲鱼捡漏</span><span>拼多多券后</span><span>京东自营</span><span>少花冤枉钱</span></div></div>
+<div class="wrap"><p class="hero-note">价格状态：<b id="priceModeLabel">快照模式 · 接口待接入</b> — 当前显示 2026-11-25 快照示例价，不是实时价。京东联盟 / 多多进宝等你申请完再填进来，填好后本页会自动切到接口价（见下方「接口接入」区）。下单前请在平台内按型号复核券后价、成色和保修。黑色「最低」标记 = 该件三平台最低价。</p></div>
+</section>
+
+<main class="wrap">
+<div class="deco-strip" aria-hidden="true"></div>
+<div class="steps">
+<div class="step"><span class="step-no">01</span><div><b>选一种配法</b><p>照着买点「博主配」，逐件换点「自己选」，下面二级按钮点一下直接跳转。</p></div></div>
+<div class="step"><span class="step-no">02</span><div><b>看总价差多少</b><p>闲鱼全淘、拼多多全买、京东全自营和分开买最低，四种总价同屏。</p></div></div>
+<div class="step"><span class="step-no">03</span><div><b>复制配置单去买</b><p>一键复制全套清单，按每件的最低价平台分别下单。</p></div></div>
+</div>
+
+<!-- 二级菜单：可点击跳转的二级按钮 -->
+<nav class="modebar" id="modeNav" aria-label="配机方式二级导航"><div class="mode-label"><span>配机方式 — 二选一 · 点按钮直接跳转</span><em>二级导航 ↓</em></div><div class="tabs" role="tablist" aria-label="配机方式">
+<a href="#panel-blogger" class="tab on" id="tab-blogger" role="tab" aria-selected="true" onclick="return jumpToMode(event,'blogger')"><span class="n">A</span><span><b>博主配</b><small>4 套现成方案，照着买</small></span><span class="go" aria-hidden="true">→</span></a>
+<a href="#panel-custom" class="tab" id="tab-custom" role="tab" aria-selected="false" onclick="return jumpToMode(event,'custom')"><span class="n">B</span><span><b>自己选</b><small>7 类配件，逐件自己换</small></span><span class="go" aria-hidden="true">→</span></a>
+</div></nav>
+
+<!-- 面板 1：博主配 -->
+<section class="panel on" id="panel-blogger">
+<div class="panel-head"><h2>博主配 · 小黑球的 4 套现成方案</h2><p>点一套看全套明细，价格已按三平台算好</p></div>
+<div class="pkg-grid" id="pkgGrid"></div>
+<div class="detail" id="presetDetail"></div>
+</section>
+
+<!-- 面板 2：自己选 -->
+<section class="panel" id="panel-custom">
+<div class="panel-head"><h2>自己选 · 逐件换配件</h2><p>点卡片即换件，总价实时重算</p></div>
+<div class="toolbar">
+<button class="btn btn-sm" onclick="applyCheapest()">一键全选最低价</button>
+<button class="btn btn-sm" onclick="selectPreset('sweet')">回到博主主推</button>
+<button class="btn btn-sm" onclick="selectPreset('flag')">一键旗舰</button>
+<span class="spacer"></span>
+<button class="btn btn-sm btn-primary" onclick="copyCurrent()">复制我的配置单</button>
+</div>
+<p class="tip">注意三条：CPU 平台要和主板对上、内存代数跟主板走、显卡越强电源瓦数越大 —— 选错了左侧总价栏会提醒。</p>
+<div class="layout">
+<aside class="summary" id="summary"></aside>
+<div id="builderList"></div>
+</div>
+<p style="font-size:12px;color:var(--muted)">贵重件（显卡 / 主板）建议优先京东自营保修；CPU 散片、散热、机箱可优先闲鱼 / 拼多多。</p>
+</section>
+
+<section class="api-box" id="api-access">
+<h2>接口接入 · 先做好，等你申请完直接切实时价</h2>
+<p class="sub">按你说的顺序来：前端和后端接口位先全部做好、留好，你最后再去申请。没填接口地址之前，本页一直用 2026-11-25 快照价，不会假装成实时价；填好并连通后，价格、总价和「最低」标记会自动按接口返回的数据重算。</p>
+<div class="api-grid">
+<div class="api-card"><b>京东</b><span class="api-badge pending" id="badge-jd">待申请</span><p>走京东联盟官方接口。申请完你会拿到 AppKey / 授权信息，填到后端就行，前端不用改。</p></div>
+<div class="api-card"><b>拼多多</b><span class="api-badge pending" id="badge-pdd">待申请</span><p>走多多进宝官方接口。申请完拿到 client_id 等信息填到后端，前端价格会自动更新。</p></div>
+<div class="api-card"><b>闲鱼</b><span class="api-badge pending">手动导入</span><p>闲鱼没有公开比价接口，先用后端的手动导入接口录价，或后面再定登录态方案。默认关闭，不自动爬。</p></div>
+</div>
+<ul class="api-list">
+<li><b>你最后要申请的就两样：</b>京东联盟（union.jd.com）、多多进宝（jinbao.pinduoduo.com）。</li>
+<li><b>申请完给我什么：</b>不用把密钥发在聊天里 — 部署时直接填到服务器的后端配置里就行，你只要告诉我「申请好了」。</li>
+<li><b>还需要一台小服务器：</b>后端跑起来后会有一个地址（例如 https://api.你的域名），把那个地址填到下面，点「测试并切换」。</li>
+</ul>
+<div class="api-form">
+<input id="apiBaseInput" type="url" inputmode="url" placeholder="后端地址，例如 https://api.example.com — 现在可先空着" aria-label="后端接口地址"/>
+<button class="btn btn-primary" onclick="testAndUseApi()">测试并切换到接口价</button>
+<button class="btn" onclick="useSnapshot()">继续用快照价</button>
+</div>
+<p class="api-status" id="apiStatus">当前状态：<b>快照模式</b> · 接口地址未填写 · 显示 2026-11-25 示例价。填入已部署的后端地址后，本页会请求 <span class="mono">/api/prices</span> 并校验返回数据，成功才切换，失败会说明原因并保留快照价。</p>
+</section>
+
+<section class="faq"><h2>常见问题</h2>
+<details><summary>博主配和自己选有什么区别？</summary><p>博主配是 4 套已经搭好、验过兼容的整机，点一套就能看全套明细和三平台总价，适合直接照着买。自己选是在任意一套的基础上逐件替换，适合只想升级显卡、硬盘、内存的人。在博主配里点「拿这套去自己选」，就能带着这套配置跳过去微调。</p></details>
+<details><summary>为什么现在还不是实时价？什么时候变实时？</summary><p>按现在的安排：前后端先做好，接口最后申请。现在是快照模式，显示 2026-11-25 示例价。等你申请完京东联盟和多多进宝、把后端部署到服务器后，在上方「接口接入」区填入后端地址点「测试并切换」，本页就会改用接口价；连不上不会切换，也不会编假价。闲鱼没有公开接口，继续走手动导入。</p></details>
+<details><summary>在闲鱼淘二手配件要注意什么？</summary><p>先问清是散片还是拆机、成色和针脚照片、有没有店保，同型号带保只贵一点点反而更稳。下单走平台担保，不要脱离平台转账，贵重件优先选京东自营保修。</p></details>
+<details><summary>怎么在抖音找到小黑球？</summary><p>打开抖音搜索「小黑球装机」就是我。视频里聊的配单和价格，回到这个站就能自己动手换件、算总价、复制配置单。</p></details>
+</section>
+</main>
+<footer><div class="wrap"><b>● 小黑球装机 — 装机比价</b><p>抖音搜「小黑球装机」找我。当前为接口待接入状态，价格为 2026-11-25 快照示例，下单前请在平台内复核。闲鱼 / 拼多多 / 京东商标归各平台所有，本页仅做价格对比展示。</p></div></footer>
+<div class="toast" id="toast">已复制配置单</div>
+
+<script>
+var CATALOG=[
+{key:"cpu",title:"CPU 处理器",hint:"决定平台：Intel / AMD AM4 / AMD AM5，主板跟着它选",items:[
+{id:"r5500",name:"AMD Ryzen 5 5500",spec:"6核12线程 · AM4 · 散片",tag:"便宜够用",plat:"AM4",xy:385,pdd:439,jd:499},
+{id:"r5600",name:"AMD Ryzen 5 5600",spec:"6核12线程 · AM4 · 游戏比5500强",tag:"AM4 游戏",plat:"AM4",xy:520,pdd:589,jd:649},
+{id:"i12400f",name:"Intel i5-12400F",spec:"6核12线程 · LGA1700 · 散片",tag:"稳妥入门",plat:"INTEL",xy:680,pdd:759,jd:849},
+{id:"i13490f",name:"Intel i5-13490F",spec:"10核16线程 · LGA1700 · 散片/拆机",tag:"10核均衡",plat:"INTEL",xy:630,pdd:799,jd:899},
+{id:"r7500f",name:"AMD Ryzen 5 7500F",spec:"6核12线程 · AM5 · 散片",tag:"AM5 入门",plat:"AM5",xy:820,pdd:929,jd:999},
+{id:"r7700",name:"AMD Ryzen 7 7700",spec:"8核16线程 · AM5 · 散片",tag:"游戏+剪辑",plat:"AM5",xy:1099,pdd:1249,jd:1349},
+{id:"r7800x3d",name:"AMD Ryzen 7 7800X3D",spec:"8核 · 3D V-Cache · AM5",tag:"游戏神U",plat:"AM5",xy:1899,pdd:2149,jd:2299},
+{id:"i14700kf",name:"Intel i7-14700KF",spec:"20核28线程 · LGA1700",tag:"生产力旗舰",plat:"INTEL",xy:2099,pdd:2399,jd:2599}
+]},
+{key:"board",title:"主板",hint:"必须和 CPU 平台、内存代数对上",items:[
+{id:"a520",name:"微星 A520M-A PRO",spec:"M-ATX · AM4 · DDR4",tag:"AM4 入门",plat:"AM4",ddr:"DDR4",xy:299,pdd:359,jd:399},
+{id:"b550",name:"微星 B550M 迫击炮 WIFI",spec:"M-ATX · AM4 · DDR4 · WiFi",tag:"AM4 高配",plat:"AM4",ddr:"DDR4",xy:549,pdd:629,jd:699},
+{id:"b760d4",name:"华硕 B760M-AYW WIFI D4",spec:"M-ATX · Intel · DDR4 · WiFi",tag:"Intel 省钱",plat:"INTEL",ddr:"DDR4",xy:649,pdd:729,jd:799},
+{id:"b760d5",name:"微星 B760M 爆破弹 WIFI",spec:"M-ATX · Intel · DDR5 · WiFi",tag:"主推搭配",plat:"INTEL",ddr:"DDR5",xy:749,pdd:849,jd:899},
+{id:"b650tuf",name:"华硕 B650M 重炮手 WIFI",spec:"M-ATX · AM5 · DDR5 · PCIe 5.0",tag:"AM5 主流",plat:"AM5",ddr:"DDR5",xy:899,pdd:999,jd:1099},
+{id:"b650tom",name:"微星 B650 战斧导弹 WIFI",spec:"ATX · AM5 · DDR5 · WiFi",tag:"AM5 旗舰",plat:"AM5",ddr:"DDR5",xy:1099,pdd:1249,jd:1349}
+]},
+{key:"gpu",title:"显卡",hint:"1080P 看 4060，2K 看 4060 Ti / 4070 Super",items:[
+{id:"nogpu",name:"不装独显 · 核显/亮机卡过渡",spec:"办公/以后再加显卡 · 需带核显 CPU",tag:"办公过渡",power:0,xy:0,pdd:0,jd:0},
+{id:"6500xt",name:"盈通 RX 6500 XT 4G",spec:"1080P 入门 · LOL/无畏契约",tag:"1080P 入门",power:400,xy:699,pdd:849,jd:899},
+{id:"4060",name:"影驰 RTX 4060 大将 8G",spec:"DLSS 3 · 光追 · 1080P高刷/2K入门",tag:"性价比甜点",power:550,xy:1899,pdd:2199,jd:2299},
+{id:"4060ti",name:"耕升 RTX 4060 Ti 追风 8G",spec:"三风扇 · DLSS 3 · 2K高画质",tag:"2K 高刷",power:650,xy:2599,pdd:2899,jd:2999},
+{id:"7800xt",name:"蓝宝石 RX 7800 XT 16G",spec:"16G大显存 · 2K拉满 · 光追弱于N卡",tag:"2K 大显存",power:650,xy:2899,pdd:3299,jd:3499},
+{id:"4070s",name:"七彩虹 RTX 4070 Super 战斧 12G",spec:"三风扇 · 2K拉满/4K入门",tag:"旗舰甜点",power:750,xy:4299,pdd:4699,jd:4899},
+{id:"4070tis",name:"微星 RTX 4070 Ti Super 魔龙 16G",spec:"16G · 4K高画质",tag:"4K 旗舰",power:750,xy:5499,pdd:5999,jd:6299}
+]},
+{key:"ram",title:"内存",hint:"DDR4 主板配 DDR4，DDR5 主板配 DDR5",items:[
+{id:"d4-16",name:"金百达 DDR4 3200 16GB",spec:"8GB×2 双通道 · DDR4",tag:"办公够用",ddr:"DDR4",xy:189,pdd:229,jd:259},
+{id:"d4-32",name:"金百达 DDR4 3600 32GB",spec:"16GB×2 · DDR4",tag:"DDR4 大容量",ddr:"DDR4",xy:349,pdd:399,jd:449},
+{id:"d5-16",name:"金百达 DDR5 6000 16GB",spec:"16GB×1 · DDR5",tag:"DDR5 入门",ddr:"DDR5",xy:299,pdd:349,jd:399},
+{id:"d5-32a",name:"金百达 DDR5 6000 32GB",spec:"16GB×2 · 海力士颗粒 · DDR5",tag:"主推",ddr:"DDR5",xy:549,pdd:629,jd:699},
+{id:"d5-32rgb",name:"光威 DDR5 6400 32GB RGB",spec:"16GB×2 RGB · DDR5",tag:"灯条高频",ddr:"DDR5",xy:599,pdd:679,jd:729},
+{id:"d5-32g",name:"芝奇 DDR5 6000 32GB C30",spec:"16GB×2 低时序 · DDR5",tag:"低时序旗舰",ddr:"DDR5",xy:749,pdd:849,jd:899}
+]},
+{key:"ssd",title:"硬盘 SSD",hint:"系统+游戏至少 1TB，游戏多直接 2TB",items:[
+{id:"s500-512",name:"梵想 S500 Pro 512GB",spec:"NVMe M.2 · 办公够用",tag:"省钱小容量",xy:199,pdd:239,jd:269},
+{id:"s500-1t",name:"梵想 S500 Pro 1TB",spec:"NVMe M.2",tag:"入门 1TB",xy:329,pdd:379,jd:419},
+{id:"ti7100-1t",name:"致态 TiPlus7100 1TB",spec:"PCIe 4.0 · 7000MB/s",tag:"主推",xy:449,pdd:519,jd:559},
+{id:"ti7100-2t",name:"致态 TiPlus7100 2TB",spec:"PCIe 4.0 · 2TB大容量",tag:"游戏仓 2TB",xy:799,pdd:899,jd:979},
+{id:"tipro-1t",name:"致态 TiPro9000 1TB",spec:"PCIe 5.0 · 高速旗舰",tag:"PCIe 5.0",xy:599,pdd:679,jd:749},
+{id:"990pro-2t",name:"三星 990 Pro 2TB",spec:"PCIe 4.0 旗舰盘 · 2TB",tag:"旗舰 2TB",xy:1099,pdd:1249,jd:1399}
+]},
+{key:"cooler",title:"散热",hint:"入门 U 风冷够用，高端 U 建议双塔或 360 水冷",items:[
+{id:"box",name:"盒装自带 / 暂不单买",spec:"仅适合带原装散热的盒装 U",tag:"¥0 过渡",xy:0,pdd:0,jd:0},
+{id:"ax120",name:"利民 AX120 R SE 风冷",spec:"单塔四热管 · 性价比",tag:"入门风冷",xy:69,pdd:79,jd:89},
+{id:"pa120",name:"利民 PA120 双塔风冷",spec:"双塔六热管 · 压主流游戏 U",tag:"主推风冷",xy:129,pdd:149,jd:169},
+{id:"a360",name:"雅浚 EA5 360 水冷",spec:"360冷排 · RGB",tag:"360 水冷",xy:299,pdd:349,jd:399},
+{id:"vk360",name:"瓦尔基里 GL360 水冷",spec:"360冷排 · 旗舰水冷",tag:"旗舰水冷",xy:449,pdd:499,jd:549}
+]},
+{key:"psu",title:"电源 + 机箱",hint:"已配成套，瓦数看显卡选",items:[
+{id:"p500",name:"航嘉 500W + 先马平头哥",spec:"额定500W 铜牌 · 适合6500XT/核显",tag:"500W 入门",watt:500,xy:279,pdd:329,jd:369},
+{id:"p650",name:"利民 650W 金牌 + 爱国者 YOGO",spec:"全模组 · 适合4060",tag:"650W 主推",watt:650,xy:379,pdd:449,jd:499},
+{id:"p750",name:"利民 750W 金牌 + 联力 O11 Mini",spec:"ATX 3.0 全模组 · 适合4060Ti/7800XT",tag:"750W 高配",watt:750,xy:549,pdd:629,jd:699},
+{id:"p850",name:"海韵 850W 金牌 + NZXT H6 Flow",spec:"ATX 3.0 · 适合4070 Super/Ti Super",tag:"850W 旗舰",watt:850,xy:799,pdd:899,jd:999},
+{id:"p1000",name:"海韵 1000W 白金 + 联力 O11 Vision",spec:"ATX 3.0 白金 · 旗舰留余量",tag:"1000W 旗舰",watt:1000,xy:1099,pdd:1249,jd:1399}
+]}
+];
+var PRESETS={
+office:{label:"¥2800 档 · 办公/轻游",name:"入门够用装",desc:"办公、网课、LOL/无畏契约低画质，后续可加显卡。",fps:"LOL 1080P 高画质 140+ FPS",sel:{cpu:"r5500",board:"a520",gpu:"6500xt",ram:"d4-16",ssd:"s500-1t",cooler:"ax120",psu:"p500"}},
+sweet:{label:"¥5000 档 · 博主主推",name:"主流电竞装",desc:"小黑球主推：i5-12400F + RTX 4060，1080P高刷全覆盖、2K入门，现在装最划算。",fps:"APEX 1080P 140+ FPS · 黑神话 1080P 中画质 60 FPS",sel:{cpu:"i12400f",board:"b760d5",gpu:"4060",ram:"d5-32a",ssd:"ti7100-1t",cooler:"pa120",psu:"p650"}},
+high:{label:"¥7500 档 · 高刷/2K",name:"高性能电竞装",desc:"2K高画质+剪辑渲染，4060 Ti配高刷屏，电源留了升级余量。",fps:"2K 高画质 90–120 FPS · 1080P 240Hz可跑满",sel:{cpu:"r7700",board:"b650tuf",gpu:"4060ti",ram:"d5-32rgb",ssd:"tipro-1t",cooler:"a360",psu:"p750"}},
+flag:{label:"¥11500 档 · 旗舰 2K/4K",name:"旗舰一步到位",desc:"7800X3D + 4070 Super，2K拉满、4K可玩，3–4年不用大升级。",fps:"2K光追 100+ FPS · 4K中高画质 60 FPS",sel:{cpu:"r7800x3d",board:"b650tom",gpu:"4070s",ram:"d5-32g",ssd:"990pro-2t",cooler:"vk360",psu:"p850"}}
+};
+var mode="blogger";
+var curPreset="sweet";
+var sel=Object.assign({},PRESETS.sweet.sel);
+function fmt(n){return "¥"+n.toLocaleString("zh-CN")}
+function findItem(k,id){var c=CATALOG.find(function(x){return x.key===k});return c.items.find(function(x){return x.id===id})}
+function partsOf(s){return CATALOG.map(function(c){return Object.assign({cat:c.title,key:c.key},findItem(c.key,s[c.key]))})}
+function selectedParts(){return partsOf(sel)}
+function totalsOf(s){var xy=0,pdd=0,jd=0,mix=0;partsOf(s).forEach(function(x){xy+=x.xy;pdd+=x.pdd;jd+=x.jd;mix+=Math.min(x.xy,x.pdd,x.jd)});return{xy:xy,pdd:pdd,jd:jd,mix:mix}}
+function totals(){return totalsOf(sel)}
+function warnings(){
+var w=[];var cpu=findItem("cpu",sel.cpu),bd=findItem("board",sel.board),ram=findItem("ram",sel.ram),gpu=findItem("gpu",sel.gpu),psu=findItem("psu",sel.psu),cool=findItem("cooler",sel.cooler);
+if(cpu.plat!==bd.plat)w.push("CPU 是 "+cpu.plat+" 平台，主板是 "+bd.plat+"，装不上 — 主板换成 "+cpu.plat+" 的。");
+if(bd.ddr!==ram.ddr)w.push("主板是 "+bd.ddr+"，内存是 "+ram.ddr+"，插不上 — 换成 "+bd.ddr+" 内存。");
+if(gpu.power&&psu.watt<gpu.power)w.push("显卡建议 "+gpu.power+"W 以上电源，你选了 "+psu.watt+"W — 换更大瓦数那档。");
+if(cool.id==="box"&&(cpu.id==="i13490f"||cpu.id==="i14700kf"||cpu.id==="r7700"||cpu.id==="r7800x3d"))w.push("这颗 CPU 多为散片、不带散热 — 选 PA120 双塔或 360 水冷。");
+if(gpu.id==="nogpu"&&(cpu.id==="i13490f"||cpu.id==="i12400f"||cpu.id==="r7500f"||cpu.id==="r5500"||cpu.id==="r5600"))w.push("选了不装独显，但这颗 CPU 无核显，点不亮 — 换带核显的 U 或加独显。");
+return w;
+}
+function switchMode(m,shouldScroll){
+mode=m;
+var tb=document.getElementById("tab-blogger"),tc=document.getElementById("tab-custom");
+tb.classList.toggle("on",m==="blogger"); tc.classList.toggle("on",m==="custom");
+tb.setAttribute("aria-selected",m==="blogger"?"true":"false"); tc.setAttribute("aria-selected",m==="custom"?"true":"false");
+document.getElementById("panel-blogger").classList.toggle("on",m==="blogger");
+document.getElementById("panel-custom").classList.toggle("on",m==="custom");
+if(shouldScroll){
+  var target=document.getElementById("panel-"+m);
+  if(target){
+    // 等面板先显示再算位置，避开吸顶栏遮挡
+    requestAnimationFrame(function(){
+      var y=target.getBoundingClientRect().top+window.scrollY-132;
+      window.scrollTo({top:Math.max(0,y),behavior:"smooth"});
+    });
+  }
+}
+try{history.replaceState(null,"","#panel-"+m)}catch(e){}
+}
+function jumpToMode(ev,m){
+if(ev&&ev.preventDefault)ev.preventDefault();
+switchMode(m,true);
+return false;
+}
+function platName(it){var low=Math.min(it.xy,it.pdd,it.jd);if(it.xy===low)return "闲鱼最低";if(it.pdd===low)return "拼多多最低";return "京东最低"}
+function renderPkgs(){
+document.getElementById("pkgGrid").innerHTML=Object.keys(PRESETS).map(function(id){var p=PRESETS[id];var t=totalsOf(p.sel);return '<button class="pkg '+(id===curPreset?'on':'')+'" onclick="selectPreset(\''+id+'\')"><div class="pkg-bar"><span>'+p.label+'</span><span class="pkg-check">✓ 已选</span></div><div class="pkg-body"><h3>'+p.name+'</h3><p>'+p.desc+'</p><div><span class="pkg-fps">'+p.fps+'</span></div><div class="pkg-price"><span>分开买最低</span><b>'+fmt(t.mix)+'</b><span>京东 '+fmt(t.jd)+'</span><span class="save-chip">省 '+fmt(t.jd-t.mix)+'</span></div></div></button>'}).join("");
+}
+function renderDetail(){
+if(!curPreset||!PRESETS[curPreset]){document.getElementById("presetDetail").innerHTML='<div class="detail-body"><p style="color:var(--muted);font-size:14px;margin:12px 0 6px">已在「自己选」里改过配置，切到上方「自己选」查看当前明细，或点上面任意一套恢复博主方案。</p></div>';return}
+var p=PRESETS[curPreset];var t=totalsOf(p.sel);var parts=partsOf(p.sel);
+var rows=parts.map(function(x){var low=Math.min(x.xy,x.pdd,x.jd);return '<div class="part-row"><span class="cat">'+x.cat+'</span><span class="nm">'+x.name+'<br/><span>'+x.spec+'</span></span><span class="pr">'+(low?fmt(low):"¥0")+(low?'<small><em>'+platName(x)+'</em></small>':'')+'</span></div>'}).join("");
+document.getElementById("presetDetail").innerHTML='<div class="detail-head"><div><h3>'+p.name+' · 全套明细</h3><p>'+p.label+' — '+p.fps+'</p></div></div><div class="detail-body"><div class="part-list">'+rows+'</div>'
++'<div class="totals"><div class="total-cell"><label>闲鱼全淘</label><b>'+fmt(t.xy)+'</b></div><div class="total-cell"><label>拼多多全买</label><b>'+fmt(t.pdd)+'</b></div><div class="total-cell"><label>京东全自营</label><b>'+fmt(t.jd)+'</b></div><div class="total-cell best"><label>分开买最低</label><b>'+fmt(t.mix)+'</b></div></div>'
++'<div class="detail-actions"><button class="btn btn-primary" onclick="copyCurrent()">复制这套配置单</button><button class="btn" onclick="goCustom()">拿这套去自己选 →</button></div><p class="detail-save">比京东全自营省 '+fmt(t.jd-t.mix)+'。想只换其中一两件，点右边按钮去微调。</p></div>';
+}
+function renderBuilder(){
+document.getElementById("builderList").innerHTML=CATALOG.map(function(c,ci){
+var cur=findItem(c.key,sel[c.key]);
+var opts=c.items.map(function(it){var low=Math.min(it.xy,it.pdd,it.jd);var isSel=it.id===sel[c.key];
+function pc(v,label){var isLow=v===low&&v>0;return '<span class="'+(isLow?'low':'')+'"><label>'+label+' </label>'+(v?fmt(v):"¥0")+(isLow?'<span class="lp">最低</span>':'')+'</span>'}
+return '<button class="opt '+(isSel?'sel':'')+'" onclick="pick(\''+c.key+'\',\''+it.id+'\')"><span class="opt-tag">'+it.tag+'</span><div class="opt-name">'+it.name+'<span class="tick">✓ 已选</span></div><div class="opt-spec">'+it.spec+'</div><div class="opt-prices">'+pc(it.xy,"闲鱼")+pc(it.pdd,"拼多多")+pc(it.jd,"京东")+'</div></button>'}).join("");
+return '<div class="cat-block"><div class="cat-head"><h3><span class="cat-idx">0'+(ci+1)+'</span>'+c.title+' <span>· '+c.items.length+' 选</span></h3><span class="cur">当前：'+cur.name+'</span></div><p class="cat-hint">'+c.hint+'</p><div class="opts">'+opts+'</div></div>'}).join("");
+}
+function renderSummary(){
+var t=totals();var best=Math.min(t.xy,t.pdd,t.jd);var w=warnings();
+document.getElementById("summary").innerHTML='<h3>我的配置 · 总价</h3><div class="mix">'+fmt(t.mix)+' <small>分开买最低</small></div>'
++'<div><div class="trow"><span>闲鱼全淘</span><b class="'+(t.xy===best?'best':'')+'">'+fmt(t.xy)+'</b></div><div class="trow"><span>拼多多全买</span><b class="'+(t.pdd===best?'best':'')+'">'+fmt(t.pdd)+'</b></div><div class="trow"><span>京东全自营</span><b class="'+(t.jd===best?'best':'')+'">'+fmt(t.jd)+'</b></div></div>'
++'<div class="save">分开买比京东省 '+fmt(t.jd-t.mix)+'</div>'
++(w.length?'<div class="warn"><strong>兼容提醒 '+w.length+' 条</strong><br/>'+w.join("<br/>")+'</div>':'<div class="ok">✓ 未发现平台 / 内存 / 电源冲突</div>')
++'<button class="btn" onclick="copyCurrent()">复制我的配置单</button>';
+}
+function renderAll(){renderPkgs();renderDetail();renderBuilder();renderSummary()}
+function selectPreset(id){curPreset=id;sel=Object.assign({},PRESETS[id].sel);renderAll()}
+function goCustom(){switchMode("custom",true)}
+function pick(key,id){sel[key]=id;curPreset="";renderAll()}
+function applyCheapest(){CATALOG.forEach(function(c){var best=c.items[0];c.items.forEach(function(it){var a=Math.min(it.xy||999999,it.pdd||999999,it.jd||999999),b=Math.min(best.xy||999999,best.pdd||999999,best.jd||999999);if(a<b)best=it});sel[c.key]=best.id});curPreset="";renderAll();showToastText("已全选最低价，看一下兼容提醒")}
+function copyCurrent(){
+var t=totals();var w=warnings();
+var title=curPreset?PRESETS[curPreset].label:"我的自由配置";
+var priceNote=(typeof PRICE_MODE!=="undefined"&&PRICE_MODE==="live")?"价格来自已连通的后端接口，下单前请在平台内复核。":"价格为 2026-11-25 快照示例（接口待接入），下单前请在平台内复核。";
+var text=title+"\n"+selectedParts().map(function(p){return p.cat+"："+p.name+"（"+p.spec+"）— 闲鱼 "+fmt(p.xy)+" / 拼多多 "+fmt(p.pdd)+" / 京东 "+fmt(p.jd)}).join("\n")+"\n整机总价：闲鱼 "+fmt(t.xy)+"｜拼多多 "+fmt(t.pdd)+"｜京东 "+fmt(t.jd)+"｜分开买最低 "+fmt(t.mix)+(w.length?"\n兼容提醒："+w.join("；"):"\n兼容检查：未发现冲突")+"\n"+priceNote;
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(function(){showToastText("已复制配置单")}).catch(function(){fallbackCopy(text)})}else fallbackCopy(text);
+}
+function fallbackCopy(text){var ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand("copy");showToastText("已复制配置单")}catch(e){}ta.remove()}
+function copyDouyin(){var t="小黑球装机";if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){showToastText("已复制：小黑球装机，去抖音搜我")}).catch(function(){fallbackCopy(t)})}else fallbackCopy(t)}
+function showToastText(s){var el=document.getElementById("toast");el.textContent=s;el.classList.add("show");setTimeout(function(){el.classList.remove("show")},1800)}
+/* ── 接口接入：先做好，申请完填地址即切换 ──
+   约定后端返回 GET {API_BASE}/api/prices ，格式任选其一：
+   A) [{id:"4060", xy:1899, pdd:2199, jd:2299}, ...]
+   B) {prices:[{part_id:"4060", platform:"jd", price:2299}, ...]}
+   校验通过才覆盖快照价；失败保留快照并说明原因。地址只在本页内存里用，不存浏览器。 */
+var PRICE_MODE="snapshot";
+var API_BASE="";
+function setApiStatus(html){var el=document.getElementById("apiStatus");if(el)el.innerHTML=html}
+function setModeLabel(){
+  var el=document.getElementById("priceModeLabel");
+  if(el)el.textContent=(PRICE_MODE==="live"?"接口模式 · 已连通后端":"快照模式 · 接口待接入");
+}
+function useSnapshot(){
+  PRICE_MODE="snapshot"; API_BASE=""; setModeLabel();
+  setApiStatus('当前状态：<b>快照模式</b> · 已切回 2026-11-25 示例价。等后端部署好，再填地址点「测试并切换」。');
+  showToastText("已切回快照价");
+}
+function normalizePrices(data){
+  var list=Array.isArray(data)?data:(data&&Array.isArray(data.prices)?data.prices:null);
+  if(!list||!list.length)return null;
+  var map={};
+  list.forEach(function(r){
+    if(!r||typeof r!=="object")return;
+    var id=r.id||r.part_id||r.partId; if(!id)return;
+    if(typeof r.price==="number"&&r.platform){
+      var k=r.platform==="xianyu"?"xy":r.platform;
+      if(k==="xy"||k==="pdd"||k==="jd"){ if(!map[id])map[id]={}; map[id][k]=r.price; }
+      return;
+    }
+    ["xy","pdd","jd"].forEach(function(k){ if(typeof r[k]==="number"&&r[k]>=0){ if(!map[id])map[id]={}; map[id][k]=r[k]; }});
+  });
+  return Object.keys(map).length?map:null;
+}
+function applyLivePrices(map){
+  var hit=0;
+  CATALOG.forEach(function(c){c.items.forEach(function(it){
+    var m=map[it.id]; if(!m)return;
+    ["xy","pdd","jd"].forEach(function(k){ if(typeof m[k]==="number"){ it[k]=m[k]; }});
+    hit++;
+  })});
+  return hit;
+}
+function testAndUseApi(){
+  var inp=document.getElementById("apiBaseInput");
+  var base=(inp&&inp.value?inp.value:"").trim().replace(/\/+$/,"");
+  if(!base){ setApiStatus('当前状态：<b>还没填地址</b> · 先空着也可以，继续用快照价。等服务器部署好，把后端地址粘到上面再点一次。'); showToastText("还没填后端地址，先用快照价"); return; }
+  if(!/^https?:\/\//i.test(base)){ setApiStatus('当前状态：<b>地址格式不对</b> · 要以 http:// 或 https:// 开头。已保留快照价，没有切换。'); return; }
+  setApiStatus('当前状态：<b>正在测试…</b> 正在请求 '+base+'/api/prices ，成功并校验通过才切换。');
+  var ctrl=(typeof AbortController!=="undefined")?new AbortController():null;
+  var timer=ctrl?setTimeout(function(){ctrl.abort()},8000):null;
+  fetch(base+"/api/prices",{headers:{"Accept":"application/json"},signal:ctrl?ctrl.signal:undefined})
+    .then(function(res){ if(timer)clearTimeout(timer); if(!res.ok)throw new Error("HTTP "+res.status); return res.json(); })
+    .then(function(data){
+      var map=normalizePrices(data);
+      if(!map)throw new Error("返回格式无法识别");
+      var hit=applyLivePrices(map);
+      if(!hit)throw new Error("返回里没有能对上的配件价");
+      PRICE_MODE="live"; API_BASE=base; setModeLabel(); renderAll();
+      var bj=document.getElementById("badge-jd"),bp=document.getElementById("badge-pdd");
+      if(bj)bj.textContent="已连通"; if(bp)bp.textContent="已连通";
+      setApiStatus('当前状态：<b>接口模式 · 已连通</b> · 后端 '+base+' · 已更新 '+hit+' 个配件的价格，总价已按接口价重算。闲鱼若后端未返回，仍保留原价，请以后端数据为准。');
+      showToastText("已切换到接口价，共更新 "+hit+" 件");
+    })
+    .catch(function(err){
+      if(timer)clearTimeout(timer);
+      PRICE_MODE="snapshot"; setModeLabel();
+      setApiStatus('当前状态：<b>连接失败，已保留快照价</b> · 原因：'+String(err&&err.message?err.message:err)+'。常见情况：后端还没部署、地址填错、或后端没开跨域（CORS）。修好后再点一次即可，不用改本页。');
+      showToastText("连接失败，仍用快照价");
+    });
+}
+// 支持链接直达：#panel-custom 打开自己选，#panel-blogger 打开博主配
+if(location.hash==="#panel-custom"){mode="custom";document.getElementById("tab-blogger").classList.remove("on");document.getElementById("tab-custom").classList.add("on");document.getElementById("panel-blogger").classList.remove("on");document.getElementById("panel-custom").classList.add("on")}
+renderAll();
+if(location.hash==="#panel-custom"||location.hash==="#panel-blogger"){setTimeout(function(){var t=document.querySelector(".panel.on");if(t){var y=t.getBoundingClientRect().top+window.scrollY-132;window.scrollTo({top:Math.max(0,y),behavior:"auto"})}},60)}
+</script>
+</body>
+</html>
